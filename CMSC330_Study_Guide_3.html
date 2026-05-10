@@ -1,0 +1,2002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMSC330 Final Exam Study Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+
+  :root {
+    --bg: #0a0d14;
+    --surface: #111520;
+    --surface2: #171c2e;
+    --border: #232a40;
+    --accent1: #7c6af5;
+    --accent2: #3de8b0;
+    --accent3: #f5a64d;
+    --accent4: #f56d6d;
+    --accent5: #5db8ff;
+    --text: #e4eaf8;
+    --muted: #7a85a8;
+    --code-bg: #0d111c;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Sidebar + Layout */
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent2);
+  }
+
+  .sidebar-header p {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-section {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-label {
+    padding: 4px 20px;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    text-decoration: none;
+  }
+
+  .nav-item:hover { color: var(--text); background: var(--surface2); }
+  .nav-item.active { color: var(--text); border-left-color: var(--accent1); background: var(--surface2); }
+
+  .nav-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .main {
+    margin-left: 260px;
+    padding: 40px 48px;
+    max-width: 960px;
+    width: calc(100% - 260px);
+  }
+
+  /* Section headers */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-tag {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    margin-top: 8px;
+    font-size: 13px;
+  }
+
+  /* Content blocks */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent1);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title .badge {
+    font-size: 9px;
+    background: var(--accent1);
+    color: white;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent3);
+    margin: 16px 0 8px;
+  }
+
+  p { margin-bottom: 10px; color: var(--text); font-size: 13px; }
+
+  /* Code */
+  pre, code {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin: 12px 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #c5d0f5;
+  }
+
+  code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: var(--accent2);
+  }
+
+  /* Type rules & math */
+  .rule-box {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent1);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  .rule-premise {
+    color: var(--muted);
+    border-bottom: 1px solid var(--muted);
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+  }
+
+  .rule-conclusion {
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  .rule-name {
+    float: right;
+    color: var(--accent3);
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  /* Callout */
+  .callout {
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .callout.info { background: rgba(93, 184, 255, 0.08); border: 1px solid rgba(93, 184, 255, 0.2); }
+  .callout.warn { background: rgba(245, 166, 77, 0.08); border: 1px solid rgba(245, 166, 77, 0.2); }
+  .callout.tip { background: rgba(61, 232, 176, 0.08); border: 1px solid rgba(61, 232, 176, 0.2); }
+  .callout.danger { background: rgba(245, 109, 109, 0.08); border: 1px solid rgba(245, 109, 109, 0.2); }
+
+  .callout-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { color: var(--text); line-height: 1.6; }
+  .callout-body strong { font-weight: 600; }
+
+  /* Step-by-step trace */
+  .trace-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin: 6px 0;
+  }
+
+  .trace-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--accent1);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .trace-content {
+    font-size: 12px;
+    color: var(--text);
+    padding-top: 2px;
+    flex: 1;
+  }
+
+  /* Quiz */
+  .quiz-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  .quiz-question {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .quiz-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    margin: 6px 0;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 12px;
+  }
+
+  .quiz-option:hover { border-color: var(--accent1); background: rgba(124, 106, 245, 0.06); }
+  .quiz-option.correct { border-color: var(--accent2); background: rgba(61, 232, 176, 0.08); color: var(--accent2); }
+  .quiz-option.wrong { border-color: var(--accent4); background: rgba(245, 109, 109, 0.08); color: var(--accent4); }
+  .quiz-option.revealed { border-color: var(--accent2); background: rgba(61, 232, 176, 0.05); }
+
+  .quiz-letter {
+    font-weight: 700;
+    width: 16px;
+    flex-shrink: 0;
+    color: var(--muted);
+  }
+
+  .quiz-explain {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 5px;
+    background: rgba(61, 232, 176, 0.05);
+    border: 1px solid rgba(61, 232, 176, 0.15);
+    font-size: 12px;
+    color: var(--accent2);
+    display: none;
+  }
+
+  .quiz-explain.show { display: block; }
+
+  .btn {
+    padding: 7px 14px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn:hover { border-color: var(--accent1); color: var(--accent1); }
+  .btn.primary { background: var(--accent1); border-color: var(--accent1); color: white; }
+  .btn.primary:hover { opacity: 0.9; }
+
+  /* Grid layouts */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  /* Comparison table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 12px 0;
+  }
+
+  th {
+    padding: 10px 14px;
+    text-align: left;
+    background: var(--surface2);
+    color: var(--accent3);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  tr:hover td { background: var(--surface2); }
+
+  /* Tag pill */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .tag.green { background: rgba(61, 232, 176, 0.12); color: var(--accent2); }
+  .tag.purple { background: rgba(124, 106, 245, 0.12); color: var(--accent1); }
+  .tag.orange { background: rgba(245, 166, 77, 0.12); color: var(--accent3); }
+  .tag.red { background: rgba(245, 109, 109, 0.12); color: var(--accent4); }
+  .tag.blue { background: rgba(93, 184, 255, 0.12); color: var(--accent5); }
+
+  /* Lambda symbol styling */
+  .lambda { color: var(--accent3); font-weight: 600; }
+  .arrow { color: var(--accent2); }
+  .var { color: var(--accent5); }
+  .keyword { color: var(--accent1); }
+
+  /* Collapsible hint */
+  details {
+    margin: 10px 0;
+  }
+
+  summary {
+    cursor: pointer;
+    color: var(--accent3);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    user-select: none;
+  }
+
+  summary::before {
+    content: '▶';
+    font-size: 9px;
+    transition: transform 0.15s;
+  }
+
+  details[open] summary::before { transform: rotate(90deg); }
+
+  details .hint-body {
+    padding: 10px 14px;
+    margin-top: 8px;
+    border-radius: 5px;
+    background: rgba(245, 166, 77, 0.06);
+    border: 1px solid rgba(245, 166, 77, 0.15);
+    font-size: 12px;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    background: var(--surface2);
+    border-radius: 4px;
+    height: 4px;
+    margin: 8px 0 16px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent1), var(--accent2));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  /* Flashcard */
+  .flashcard-wrap {
+    perspective: 1200px;
+    height: 180px;
+    margin: 12px 0;
+    cursor: pointer;
+  }
+
+  .flashcard {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+  }
+
+  .flashcard.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .card-front {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .card-back {
+    background: var(--surface2);
+    border: 1px solid var(--accent1);
+    transform: rotateY(180deg);
+  }
+
+  .card-front p { color: var(--muted); font-size: 11px; margin-bottom: 8px; }
+  .card-front .q { font-family: 'Syne', sans-serif; font-size: 15px; color: var(--text); margin: 0; }
+  .card-back .a { font-size: 12px; color: var(--accent2); margin: 0; line-height: 1.7; }
+
+  .flashcard-nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .flashcard-counter {
+    font-size: 11px;
+    color: var(--muted);
+    flex: 1;
+    text-align: center;
+  }
+
+  /* Home screen */
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .home-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .home-tile:hover {
+    border-color: var(--accent1);
+    transform: translateY(-2px);
+  }
+
+  .home-tile-icon { font-size: 22px; }
+
+  .home-tile-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .home-tile-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  ul { padding-left: 20px; margin-bottom: 10px; }
+  li { margin-bottom: 4px; font-size: 13px; }
+  li::marker { color: var(--accent1); }
+
+  strong { color: var(--accent3); font-weight: 600; }
+  em { color: var(--accent5); font-style: italic; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  .exam-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(245, 109, 109, 0.1);
+    border: 1px solid rgba(245, 109, 109, 0.25);
+    color: var(--accent4);
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .sidebar { width: 220px; }
+    .main { margin-left: 220px; width: calc(100% - 220px); padding: 24px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <h1>CMSC330</h1>
+      <p>Final Exam Study Guide</p>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Navigation</div>
+      <a class="nav-item active" onclick="showSection('home')">
+        <span class="nav-dot" style="background:#7c6af5"></span>Overview
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Topics</div>
+      <a class="nav-item" onclick="showSection('typing')">
+        <span class="nav-dot" style="background:#5db8ff"></span>OCaml Typing
+      </a>
+      <a class="nav-item" onclick="showSection('closures')">
+        <span class="nav-dot" style="background:#3de8b0"></span>Function Closures
+      </a>
+      <a class="nav-item" onclick="showSection('regex')">
+        <span class="nav-dot" style="background:#f5a64d"></span>Regular Expressions
+      </a>
+      <a class="nav-item" onclick="showSection('hof')">
+        <span class="nav-dot" style="background:#7c6af5"></span>Higher Order Functions
+      </a>
+      <a class="nav-item" onclick="showSection('cfg')">
+        <span class="nav-dot" style="background:#f56d6d"></span>Context Free Grammar
+      </a>
+      <a class="nav-item" onclick="showSection('lexer')">
+        <span class="nav-dot" style="background:#5db8ff"></span>Lexer / Parser / Eval
+      </a>
+      <a class="nav-item" onclick="showSection('lambda')">
+        <span class="nav-dot" style="background:#3de8b0"></span>Lambda Calculus
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Practice</div>
+      <a class="nav-item" onclick="showSection('flashcards')">
+        <span class="nav-dot" style="background:#f5a64d"></span>Flashcards
+      </a>
+      <a class="nav-item" onclick="showSection('quiz')">
+        <span class="nav-dot" style="background:#f56d6d"></span>Practice Quiz
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- HOME -->
+    <div id="home" class="section active">
+      <div class="section-header">
+        <div class="section-tag">CMSC330 — Spring 2026</div>
+        <h2 class="section-title">Final Exam<br>Study Guide</h2>
+        <p class="section-desc">Built from your course notes and past exams (Fall '23, Spring '24, Spring '25). Click any topic to dive in.</p>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">This guide covers all 7 major topics from your course notes. Each section includes key concepts, type rules, code traces, and exam-style practice problems drawn from previous finals.</div>
+      </div>
+
+      <div class="home-grid">
+        <div class="home-tile" onclick="showSection('typing')">
+          <div class="home-tile-icon">🔷</div>
+          <div class="home-tile-title">OCaml Typing</div>
+          <div class="home-tile-desc">Type rules, context G, type proofs, if/let/function types</div>
+        </div>
+        <div class="home-tile" onclick="showSection('closures')">
+          <div class="home-tile-icon">📦</div>
+          <div class="home-tile-title">Closures</div>
+          <div class="home-tile-desc">Environments, partial application, static scope, currying</div>
+        </div>
+        <div class="home-tile" onclick="showSection('regex')">
+          <div class="home-tile-icon">🔍</div>
+          <div class="home-tile-title">Regular Expressions</div>
+          <div class="home-tile-desc">Why +?[] aren't necessary, NFA→Regex derivation</div>
+        </div>
+        <div class="home-tile" onclick="showSection('hof')">
+          <div class="home-tile-icon">🔁</div>
+          <div class="home-tile-title">Higher Order Functions</div>
+          <div class="home-tile-desc">Map, fold_left, fold_right — implementations & traces</div>
+        </div>
+        <div class="home-tile" onclick="showSection('cfg')">
+          <div class="home-tile-icon">🌳</div>
+          <div class="home-tile-title">Context Free Grammar</div>
+          <div class="home-tile-desc">CFG vs Regex, derivations, ambiguity, recursion</div>
+        </div>
+        <div class="home-tile" onclick="showSection('lexer')">
+          <div class="home-tile-icon">⚙️</div>
+          <div class="home-tile-title">Lexer / Parser / Eval</div>
+          <div class="home-tile-desc">Pipeline implementation in OCaml, ASTs, typecheck</div>
+        </div>
+        <div class="home-tile" onclick="showSection('lambda')">
+          <div class="home-tile-icon">λ</div>
+          <div class="home-tile-title">Lambda Calculus</div>
+          <div class="home-tile-desc">Complete from scratch — β-reduction, Church encodings, Y-combinator</div>
+        </div>
+        <div class="home-tile" onclick="showSection('flashcards')">
+          <div class="home-tile-icon">🃏</div>
+          <div class="home-tile-title">Flashcards</div>
+          <div class="home-tile-desc">Quick-review cards for key definitions and rules</div>
+        </div>
+        <div class="home-tile" onclick="showSection('quiz')">
+          <div class="home-tile-icon">📝</div>
+          <div class="home-tile-title">Practice Quiz</div>
+          <div class="home-tile-desc">Exam-style questions from Spring '24 & '25 finals</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TYPING ===== -->
+    <div id="typing" class="section">
+      <div class="section-header">
+        <div class="section-tag">Topic 01</div>
+        <h2 class="section-title">OCaml Typing</h2>
+        <p class="section-desc">Type rules, the context G, and how to construct type proofs — from your typesystem.pdf notes.</p>
+      </div>
+
+      <div class="exam-tag">📋 Tested on Spring '24, Spring '25, Fall '23 finals</div>
+
+      <div class="card">
+        <div class="card-title">What is a Type System?</div>
+        <p>A type system is a series of rules that (1) assign types to values/expressions and (2) describe what you can do with values of a certain type. OCaml is <strong>statically</strong> and <strong>implicitly typed</strong> — type checking happens at compile time, but you don't have to write the types explicitly (type inference does it).</p>
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body"><strong>Key distinction:</strong> OCaml cannot use an <code>int</code> where a <code>bool</code> is expected (e.g., in an if-condition). Python allows this. This is because their type rules differ, not because one is "smarter."</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">The Context <code>G</code> <span class="badge">Core Concept</span></div>
+        <p>Just like the environment <code>A</code> in Operational Semantics stores variable-to-value bindings, the <strong>context G</strong> is a partial function that maps <em>variable names → their types</em>.</p>
+        <ul>
+          <li><code>G(x) = t</code> means "variable x has type t in context G"</li>
+          <li><code>G, x : t</code> means "extend context G with a new binding: x has type t"</li>
+          <li><code>G ⊢ e : t</code> reads: "In context G, expression e has type t"</li>
+        </ul>
+        <div class="rule-box">
+          <div class="rule-name">(T-Var)</div>
+          <div class="rule-premise">G(x) = t</div>
+          <div class="rule-conclusion">G ⊢ x : t</div>
+        </div>
+        <p style="margin-top:8px;font-size:12px;color:var(--muted)">This says: "look up x in the context; whatever type you find is x's type."</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Core Type Rules</div>
+
+        <h3>Constant Rules (no premises needed)</h3>
+        <div class="grid-2">
+          <div class="rule-box">
+            <div class="rule-name">(T-True)</div>
+            <div class="rule-conclusion">G ⊢ true : bool</div>
+          </div>
+          <div class="rule-box">
+            <div class="rule-name">(T-False)</div>
+            <div class="rule-conclusion">G ⊢ false : bool</div>
+          </div>
+          <div class="rule-box">
+            <div class="rule-name">(T-Int)</div>
+            <div class="rule-conclusion">G ⊢ n : int &nbsp;(for any integer n)</div>
+          </div>
+        </div>
+
+        <h3>If Expression</h3>
+        <div class="rule-box">
+          <div class="rule-name">(T-If)</div>
+          <div class="rule-premise">G ⊢ e1 : bool &nbsp;&nbsp; G ⊢ e2 : t &nbsp;&nbsp; G ⊢ e3 : t</div>
+          <div class="rule-conclusion">G ⊢ if e1 then e2 else e3 : t</div>
+        </div>
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">Both branches e2 and e3 must have the <strong>same type t</strong>. The condition e1 must be <code>bool</code>. Violating either gives a type error.</div>
+        </div>
+
+        <h3>Arithmetic and Boolean Operators</h3>
+        <div class="rule-box">
+          <div class="rule-name">(T-Add)</div>
+          <div class="rule-premise">G ⊢ e1 : int &nbsp;&nbsp; G ⊢ e2 : int</div>
+          <div class="rule-conclusion">G ⊢ e1 + e2 : int</div>
+        </div>
+        <div class="rule-box">
+          <div class="rule-name">(T-And)</div>
+          <div class="rule-premise">G ⊢ e1 : bool &nbsp;&nbsp; G ⊢ e2 : bool</div>
+          <div class="rule-conclusion">G ⊢ e1 && e2 : bool</div>
+        </div>
+        <div class="rule-box">
+          <div class="rule-name">(T-Eq)</div>
+          <div class="rule-premise">G ⊢ e1 : t &nbsp;&nbsp; G ⊢ e2 : t</div>
+          <div class="rule-conclusion">G ⊢ e1 = e2 : bool</div>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">Notice T-Eq: both sides need the same type t (polymorphic), but you still can't compare an int to a bool.</p>
+
+        <h3>Let Expression</h3>
+        <div class="rule-box">
+          <div class="rule-name">(T-Let)</div>
+          <div class="rule-premise">G ⊢ e1 : t1 &nbsp;&nbsp; G, x : t1 ⊢ e2 : t2</div>
+          <div class="rule-conclusion">G ⊢ let x = e1 in e2 : t2</div>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">First figure out t1 (the type of e1). Then extend the context with <code>x : t1</code> and check e2. The whole let expression gets e2's type.</p>
+
+        <h3>Functions (Anonymous)</h3>
+        <div class="rule-box">
+          <div class="rule-name">(T-Fun)</div>
+          <div class="rule-premise">G, x : t1 ⊢ e : t2</div>
+          <div class="rule-conclusion">G ⊢ fun (x : t1) → e : (t1 → t2)</div>
+        </div>
+        <div class="rule-box">
+          <div class="rule-name">(T-App)</div>
+          <div class="rule-premise">G ⊢ e1 : (t1 → t2) &nbsp;&nbsp; G ⊢ e2 : t1</div>
+          <div class="rule-conclusion">G ⊢ e1 e2 : t2</div>
+        </div>
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <div class="callout-body">T-App is the function call rule. e1 must be a function type, and e2 must match the input type of e1. The result is the output type.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">How to Derive a Type Proof <span class="badge">Exam skill</span></div>
+        <p>Type proofs are like trees — you work bottom-up from the goal. Example: prove the type of <code>let x = 3 in if true then x else x + 3</code></p>
+        <pre>
+// Goal: G ⊢ let x = 3 in if true then x else x + 3 : ?
+
+// Step 1: What type is 3? → int  (by T-Int)
+G ⊢ 3 : int
+
+// Step 2: Extend context, now check the body with G, x:int
+// Need: G, x:int ⊢ if true then x else x+3 : ?
+
+// Step 3: Check condition: G,x:int ⊢ true : bool  (by T-True)
+// Step 4: Check then-branch: G,x:int ⊢ x : int  (by T-Var, G(x)=int)
+// Step 5: Check else-branch: G,x:int ⊢ x+3 : int
+//    → G,x:int ⊢ x : int  AND  G,x:int ⊢ 3 : int  → T-Add gives int
+// Step 6: Both branches are int → T-If gives int
+G, x:int ⊢ if true then x else x+3 : int
+
+// Final by T-Let:
+G ⊢ let x = 3 in if true then x else x+3 : int</pre>
+
+        <div class="callout danger">
+          <span class="callout-icon">🚨</span>
+          <div class="callout-body"><strong>Exam tip:</strong> If you cannot form a complete proof tree — the expression has a type error. Don't force it. Write "type error" and explain which rule failed.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Practice: Derive the type</div>
+        <p>What is the type of this OCaml expression? Work it out on paper, then reveal:</p>
+        <pre>fun x ->
+  let (a, b) = x in
+  fun y ->
+    let a = (a+1, b > true) in
+    (a::[y])</pre>
+        <details>
+          <summary>Reveal Answer (Spring '25 Final)</summary>
+          <div class="hint-body">
+            <p><strong>Answer:</strong> <code>(int * bool) → 'a → (int * bool) list</code></p>
+            <p>Breaking it down: <code>x</code> is destructured as a pair <code>(a, b)</code>. <code>a+1</code> forces <code>a : int</code>. <code>b > true</code> forces <code>b : bool</code>. Inside, <code>a</code> is rebound to <code>(a+1, b > true) : int * bool</code>. <code>a::[y]</code> builds a list, so <code>y</code> must match <code>a</code>'s type, meaning <code>y : int * bool</code>. Return type is <code>(int * bool) list</code>.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ===== CLOSURES ===== -->
+    <div id="closures" class="section">
+      <div class="section-header">
+        <div class="section-tag">Topic 02</div>
+        <h2 class="section-title">Function Closures</h2>
+        <p class="section-desc">How closures capture environments, enable partial application, and why they use static scope.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">What is a Closure?</div>
+        <p>A <strong>closure</strong> is a tuple of: (1) a function definition, and (2) the environment at the time the function was created. It "closes over" the variables in scope.</p>
+        <pre>
+let sub x y = x - y
+let sub3 = sub 3
+(* sub3 is a closure:
+   function: (fun y -> x - y)
+   environment: [x = 3]
+*)</pre>
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <div class="callout-body">A closure is <strong>not evaluated</strong> until it is called. The environment is frozen at creation time and never updated.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Partial Application &amp; Currying <span class="badge">Key Concept</span></div>
+        <p>In OCaml, every function technically takes <em>one argument</em> and returns either a value or another function. A "two-argument function" is really a function that returns a function:</p>
+        <pre>
+let plus x y = x + y
+(* Is syntactic sugar for: *)
+let plus = fun x -> fun y -> x + y
+(* type: int -> int -> int
+         which is really: int -> (int -> int) *)</pre>
+        <p>This lets us <strong>partially apply</strong> — supply just the first argument and get back a new function:</p>
+        <pre>
+let add3 = plus 3
+(* add3 = fun y -> 3 + y  (closure with env [x=3]) *)
+add3 5  (* = 8 *)
+
+let add10 = plus 10
+add10 7  (* = 17 *)</pre>
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">You can only partially apply <strong>from left to right</strong>. To partially apply the second argument, you need a helper like <code>flip</code>:<br><code>let flip f x y = f y x</code></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Static Scope (Lexical Scoping)</div>
+        <p>Closures use <strong>static scope</strong> — the environment is fixed at function creation, not at call time. This means reassigning a variable after creating a closure does NOT affect the closure:</p>
+        <pre>
+let sub x y = x - y
+let x = 3
+let sub3 = sub x   (* closure captures x=3 *)
+let x = 5          (* rebinding x does NOT update closure *)
+sub3 5             (* = 3 - 5 = -2, NOT 5 - 5 = 0 *)</pre>
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body"><strong>Dynamic scope</strong> (contrast) would update the closure's variables with current top-level values, giving 0. OCaml uses static scope — the safer, more predictable model.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Partial Application Trace <span class="badge">Exam skill</span></div>
+        <pre>
+let and4 w x y z = w && x && y && z
+(* = fun w -> fun x -> fun y -> fun z -> w && x && y && z *)
+
+let and3 = and4 true
+(* closure: (fun x -> fun y -> fun z -> true && x && y && z), env=[w=true] *)
+
+let and2 = and3 true
+(* closure: (fun y -> fun z -> true && true && y && z), env=[w=true,x=true] *)
+
+let and1 = and2 true
+(* closure: (fun z -> true && true && true && z), env=[w=true,x=true,y=true] *)
+
+and1 false  (* = false *)</pre>
+      </div>
+    </div>
+
+    <!-- ===== REGEX ===== -->
+    <div id="regex" class="section">
+      <div class="section-header">
+        <div class="section-tag">Topic 03</div>
+        <h2 class="section-title">Regular Expressions</h2>
+        <p class="section-desc">Why +, ?, and [] are syntactic sugar — and how to derive a regex from an NFA.</p>
+      </div>
+
+      <div class="exam-tag">📋 Tested on every final — NFA/DFA conversion is always on the exam</div>
+
+      <div class="card">
+        <div class="card-title">The 5 Base Regex Operations</div>
+        <p>Everything in a regular expression can be built from just these 5 primitives:</p>
+        <table>
+          <tr><th>Operation</th><th>Notation</th><th>Meaning</th></tr>
+          <tr><td><span class="tag blue">Empty string</span></td><td><code>ε</code></td><td>Matches the empty string</td></tr>
+          <tr><td><span class="tag purple">Symbol</span></td><td><code>a</code></td><td>Matches a single character</td></tr>
+          <tr><td><span class="tag green">Concatenation</span></td><td><code>RS</code></td><td>R followed by S</td></tr>
+          <tr><td><span class="tag orange">Union / Alternation</span></td><td><code>R|S</code></td><td>R or S</td></tr>
+          <tr><td><span class="tag red">Kleene Star</span></td><td><code>R*</code></td><td>0 or more repetitions of R</td></tr>
+        </table>
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <div class="callout-body">These 5 operations are <strong>sufficient</strong> to describe any regular language. All other operators are just convenient shorthand.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Why +, ?, and [ ] Are NOT Strictly Necessary <span class="badge">Core Concept</span></div>
+
+        <h3>The + Operator (one or more)</h3>
+        <p><code>R+</code> means "one or more R." This is equivalent to <code>RR*</code> — one occurrence, followed by zero or more.</p>
+        <div class="rule-box">
+          <div class="rule-conclusion">R+ &nbsp;≡&nbsp; RR* &nbsp;≡&nbsp; R(R*)</div>
+        </div>
+        <p><em>Example:</em> <code>a+</code> ≡ <code>aa*</code> (matches a, aa, aaa, ...)</p>
+
+        <h3>The ? Operator (zero or one)</h3>
+        <p><code>R?</code> means "zero or one R." This is equivalent to <code>R|ε</code> — either R or the empty string.</p>
+        <div class="rule-box">
+          <div class="rule-conclusion">R? &nbsp;≡&nbsp; R|ε</div>
+        </div>
+        <p><em>Example:</em> <code>colou?r</code> ≡ <code>colo(u|ε)r</code> (matches "colour" or "color")</p>
+
+        <h3>Character Classes [ ]</h3>
+        <p><code>[abc]</code> means "any one of a, b, or c." This is just union:</p>
+        <div class="rule-box">
+          <div class="rule-conclusion">[abc] &nbsp;≡&nbsp; a|b|c</div>
+        </div>
+        <p><code>[a-z]</code> ≡ <code>a|b|c|...|z</code> (a union of 26 symbols)</p>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body"><strong>Exam answer:</strong> These operators add <em>convenience and readability</em> but not <em>expressive power</em>. Any regex using +, ?, or [] can be rewritten using only {ε, symbol, concat, |, *} to accept the exact same language.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Deriving a Regex from an NFA</div>
+        <p>To convert an NFA to a regular expression, use the <strong>state elimination method</strong>:</p>
+
+        <div class="trace-step">
+          <div class="trace-num">1</div>
+          <div class="trace-content">Add a new <strong>start state</strong> with an ε-transition to the original start, and a new <strong>accept state</strong> with ε-transitions from all original accept states.</div>
+        </div>
+        <div class="trace-step">
+          <div class="trace-num">2</div>
+          <div class="trace-content">Pick an intermediate state (not start or accept). For each pair of states (q<sub>i</sub>, q<sub>j</sub>) that pass through this state, combine the transitions into a single regex: <code>R(q<sub>i</sub>→s) · (loop*)  · R(s→q<sub>j</sub>)</code></div>
+        </div>
+        <div class="trace-step">
+          <div class="trace-num">3</div>
+          <div class="trace-content">Remove the eliminated state and add the new direct transitions between all affected pairs.</div>
+        </div>
+        <div class="trace-step">
+          <div class="trace-num">4</div>
+          <div class="trace-content">Repeat until only start and accept remain. The label on the final transition is your regex.</div>
+        </div>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">On exams, you're more often asked NFA→DFA (subset construction). Remember: epsilon-closures first, then build states from input transitions. <strong>Spring '25 exam had a full NFA→DFA question worth 10 pts.</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== HOF ===== -->
+    <div id="hof" class="section">
+      <div class="section-header">
+        <div class="section-tag">Topic 04</div>
+        <h2 class="section-title">Higher Order Functions</h2>
+        <p class="section-desc">Map, fold_left, fold_right — implementations, traces, and how to use them.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">What Makes a Function "Higher Order"?</div>
+        <p>A <strong>higher order function (HOF)</strong> is one that either <em>takes a function as an argument</em> or <em>returns a function</em>. In OCaml, functions are first-class values — they can be passed around just like integers.</p>
+        <pre>
+(* Takes a function as input *)
+let apply f x = f x
+
+(* Returns a function *)
+let get_add1 () = fun x -> x + 1</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Map <span class="badge">Must Know</span></div>
+        <p>Map applies a function to every element of a list, producing a new list of transformed values (same length).</p>
+
+        <h3>Implementation</h3>
+        <pre>
+let rec map f lst = match lst with
+  | []     -> []
+  | h :: t -> (f h) :: (map f t)</pre>
+
+        <h3>Type signature</h3>
+        <pre>
+map : ('a -> 'b) -> 'a list -> 'b list</pre>
+
+        <h3>Full Trace: map add1 [1;2;3]</h3>
+        <pre>
+let add1 x = x + 1
+
+map add1 [1;2;3]
+= (add1 1) :: (map add1 [2;3])
+= (add1 2) :: (map add1 [3])     [pushed to stack]
+= (add1 3) :: (map add1 [])      [pushed to stack]
+= (add1 3) :: []                  [base case]
+= 4 :: []
+= (add1 2) :: [4]
+= 3 :: [4]
+= (add1 1) :: [3;4]
+= 2 :: [3;4]
+= [2;3;4]</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Fold Right <span class="badge">Must Know</span></div>
+        <p>Fold reduces a list to a single value by combining elements right-to-left (innermost first).</p>
+
+        <h3>Implementation</h3>
+        <pre>
+let rec fold_right f lst base = match lst with
+  | []     -> base
+  | h :: t -> f h (fold_right f t base)</pre>
+
+        <h3>Type signature</h3>
+        <pre>
+fold_right : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
+              ^-- element    ^-- acc   ^-- init   ^-- result</pre>
+
+        <h3>Trace: fold_right (-) [1;2;3] 0</h3>
+        <pre>
+fold_right (-) [1;2;3] 0
+= (-) 1 (fold_right (-) [2;3] 0)
+= (-) 1 ((-) 2 (fold_right (-) [3] 0))
+= (-) 1 ((-) 2 ((-) 3 0))
+= (-) 1 ((-) 2 3)       -- 3-0=3
+= (-) 1 (-1)            -- 2-3=-1
+= 2                     -- 1-(-1)=2</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Fold Left <span class="badge">Must Know</span></div>
+        <p>Fold left uses an <em>accumulator</em> — processes left-to-right. More memory efficient (tail recursive).</p>
+
+        <h3>Implementation</h3>
+        <pre>
+let rec fold_left f acc lst = match lst with
+  | []     -> acc
+  | h :: t -> fold_left f (f acc h) t</pre>
+
+        <h3>Type signature</h3>
+        <pre>
+fold_left : ('b -> 'a -> 'b) -> 'b -> 'a list -> 'b
+             ^-- acc  ^-- elem ^-- init ^-- list   ^-- result</pre>
+
+        <h3>Trace: fold_left (-) 0 [1;2;3]</h3>
+        <pre>
+fold_left (-) 0 [1;2;3]
+= fold_left (-) (0-1) [2;3]   = fold_left (-) (-1) [2;3]
+= fold_left (-) (-1-2) [3]    = fold_left (-) (-3) [3]
+= fold_left (-) (-3-3) []     = fold_left (-) (-6) []
+= -6</pre>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body"><strong>fold_left vs fold_right differ for non-commutative operations!</strong><br>
+          fold_left (-) 0 [1;2;3] = <strong>-6</strong><br>
+          fold_right (-) [1;2;3] 0 = <strong>2</strong><br>
+          They give the same result only for operations like + and * (commutative &amp; associative).</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Comparing Map vs Fold</div>
+        <table>
+          <tr><th></th><th>map</th><th>fold_right</th><th>fold_left</th></tr>
+          <tr><td>Input</td><td>'a list</td><td>'a list</td><td>'a list</td></tr>
+          <tr><td>Output</td><td>'b list</td><td>'b (single value)</td><td>'b (single value)</td></tr>
+          <tr><td>Function type</td><td>'a → 'b</td><td>'a → 'b → 'b</td><td>'b → 'a → 'b</td></tr>
+          <tr><td>Needs base case?</td><td>No (returns [])</td><td>Yes</td><td>Yes (accumulator)</td></tr>
+          <tr><td>Order</td><td>Left→Right</td><td>Right→Left (inner first)</td><td>Left→Right</td></tr>
+          <tr><td>Stack-safe?</td><td>No</td><td>No</td><td>Yes (tail recursive)</td></tr>
+        </table>
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <div class="callout-body">From Spring '25: "In OCaml, anywhere we use map, we could use fold instead." — This is <strong>TRUE</strong>. You can implement map using fold_right.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Practice: Trace this HOF <span class="badge">Spring '25 Q6</span></div>
+        <pre>
+let rec f x = match x with
+  | [] -> 3
+  | x::xs -> List.fold_left x (f xs) [1;2;3]
+
+f [(fun a b -> a + b)]</pre>
+        <details>
+          <summary>Reveal Answer</summary>
+          <div class="hint-body">
+            <p>The list contains one element: <code>(fun a b -> a + b)</code>. Pattern matches to <code>x = (fun a b -> a+b)</code>, <code>xs = []</code>.</p>
+            <p><code>f xs = f [] = 3</code> (base case)</p>
+            <p><code>List.fold_left (fun a b -> a+b) 3 [1;2;3]</code></p>
+            <p>= fold with acc=3: 3+1=4, 4+2=6, 6+3=<strong>9</strong></p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ===== CFG ===== -->
+    <div id="cfg" class="section">
+      <div class="section-header">
+        <div class="section-tag">Topic 05</div>
+        <h2 class="section-title">Context Free Grammar</h2>
+        <p class="section-desc">CFG creation, relation to regex &amp; NFAs, derivations, and ambiguity — from your grammar.pdf notes.</p>
+      </div>
+
+      <div class="exam-tag">📋 CFG creation question appears on every past exam</div>
+
+      <div class="card">
+        <div class="card-title">CFG Vocabulary</div>
+        <table>
+          <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
+          <tr><td><strong>Terminal</strong></td><td>Actual symbols in the language (leaves of derivation tree)</td><td><code>a</code>, <code>+</code>, <code>0</code></td></tr>
+          <tr><td><strong>Non-terminal</strong></td><td>Placeholder symbols that expand (by convention: uppercase)</td><td><code>S</code>, <code>E</code>, <code>NP</code></td></tr>
+          <tr><td><strong>Production rule</strong></td><td>A rule describing what a non-terminal can expand to</td><td><code>S → aSb | ε</code></td></tr>
+          <tr><td><strong>Start symbol</strong></td><td>The non-terminal we begin derivation from</td><td>Usually <code>S</code></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">CFG vs Regex vs NFA <span class="badge">Exam favorite</span></div>
+        <div class="callout danger">
+          <span class="callout-icon">🚨</span>
+          <div class="callout-body"><strong>"Every CFG can be represented by an NFA" — FALSE.</strong> (Spring '25 Q1). NFAs/DFAs recognize only <em>regular languages</em>. CFGs recognize <em>context-free languages</em>, a strictly larger class. Every regular language is context-free, but not vice versa.</div>
+        </div>
+        <table>
+          <tr><th>Property</th><th>Regex / NFA / DFA</th><th>CFG / PDA</th></tr>
+          <tr><td>Language class</td><td>Regular languages</td><td>Context-free languages</td></tr>
+          <tr><td>Handles nesting?</td><td>No (no memory)</td><td>Yes (stack-based)</td></tr>
+          <tr><td>Can match a<sup>n</sup>b<sup>n</sup>?</td><td><span class="tag red">No</span></td><td><span class="tag green">Yes</span></td></tr>
+          <tr><td>Machine model</td><td>Finite Automaton</td><td>Pushdown Automaton</td></tr>
+          <tr><td>Decidable emptiness?</td><td>Yes</td><td>Yes</td></tr>
+        </table>
+        <p><em>In practice:</em> Regular expressions describe tokens (lexer stage). CFGs describe sentence structure (parser stage).</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Leftmost vs Rightmost Derivation</div>
+        <p>Both are ways to expand a CFG — the difference is <strong>which non-terminal you expand first</strong>.</p>
+
+        <div class="grid-2">
+          <div>
+            <h3>Leftmost Derivation</h3>
+            <p>Always expand the <strong>leftmost</strong> non-terminal first.</p>
+            <pre>
+E → E + E | n
+
+Derive: 1 + 2 + 3
+E
+→ E + E         (expand leftmost E)
+→ E + E + E     (expand leftmost E)
+→ 1 + E + E     (expand leftmost E)
+→ 1 + 2 + E
+→ 1 + 2 + 3</pre>
+          </div>
+          <div>
+            <h3>Rightmost Derivation</h3>
+            <p>Always expand the <strong>rightmost</strong> non-terminal first.</p>
+            <pre>
+E → E + E | n
+
+Derive: 1 + 2 + 3
+E
+→ E + E         (expand rightmost E)
+→ E + E + E     (expand rightmost E)
+→ E + E + 3
+→ E + 2 + 3
+→ 1 + 2 + 3</pre>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">Leftmost and rightmost derivations correspond to different <strong>parse trees</strong> for the same string when the grammar is ambiguous.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Left vs Right Recursion</div>
+        <div class="grid-2">
+          <div>
+            <h3>Left Recursive</h3>
+            <pre>E → E + n | n</pre>
+            <p>The non-terminal appears at the <strong>start</strong> of the production. Useful for left-associative operators (<code>1-2-3 = (1-2)-3</code>).</p>
+          </div>
+          <div>
+            <h3>Right Recursive</h3>
+            <pre>E → n + E | n</pre>
+            <p>The non-terminal appears at the <strong>end</strong>. Useful for right-associative operators (<code>a::b::[] = a::(b::[])</code>).</p>
+          </div>
+        </div>
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">Left-recursive grammars <strong>break LL parsers</strong> (like the recursive descent parsers used in class). LL parsers need to be rewritten to remove left recursion.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Ambiguity</div>
+        <p>A grammar is <strong>ambiguous</strong> if there exists a string with <em>more than one distinct parse tree</em> (or equivalently, more than one leftmost derivation).</p>
+        <pre>
+(* Ambiguous grammar *)
+E → E + E | E * E | n
+
+(* "1 + 2 * 3" has two parse trees:
+   (1 + 2) * 3 = 9
+   1 + (2 * 3) = 7
+*)
+
+(* Unambiguous version — enforce precedence *)
+E → E + T | T
+T → T * F | F
+F → n</pre>
+        <div class="callout danger">
+          <span class="callout-icon">🚨</span>
+          <div class="callout-body">Ambiguous grammars are <em>bad for parsers</em> — the parser doesn't know which tree to build. Fix by restructuring the grammar to reflect precedence and associativity.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Practice: Create a CFG for c*(ab)+d <span class="badge">Spring '25 Q4</span></div>
+        <p>Which grammar matches the regex <code>c*(ab)+d</code>?</p>
+        <details>
+          <summary>Reveal Answer</summary>
+          <div class="hint-body">
+            <p><code>c*(ab)+d</code> means: zero or more c's, followed by one or more "ab" pairs, followed by d.</p>
+            <pre>
+U → M D C
+M → cM | ε        (c* = zero or more c's)
+D → abD | ab      (ab+ = one or more ab's)
+C → dC | ε        (d, but only one d is needed → actually just d)</pre>
+            <p>The correct answer from the Spring '25 exam is choice <strong>B</strong>:
+            <code>U → MDC, D → abD|ab, M → cM|ε, C → d|ε</code></p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ===== LEXER ===== -->
+    <div id="lexer" class="section">
+      <div class="section-header">
+        <div class="section-tag">Topic 06</div>
+        <h2 class="section-title">Lexer / Parser / Eval / Typecheck</h2>
+        <p class="section-desc">The full interpreter pipeline from string to value — from interpreterscompilers.pdf.</p>
+      </div>
+
+      <div class="exam-tag">📋 Spring '25 had a 10-pt "at which stage does this fail?" question</div>
+
+      <div class="card">
+        <div class="card-title">The Interpreter Pipeline</div>
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body"><strong>String → Lexer → Token list → Parser → AST → Evaluator → Value</strong><br>
+          (Optionally: AST → Typechecker → Type, then Evaluator → Value)</div>
+        </div>
+        <table>
+          <tr><th>Stage</th><th>Input</th><th>Output</th><th>Fails when...</th></tr>
+          <tr><td><strong>Lexer</strong></td><td>String</td><td>Token list</td><td>Unknown character (not in alphabet)</td></tr>
+          <tr><td><strong>Parser</strong></td><td>Token list</td><td>AST</td><td>Tokens don't match grammar</td></tr>
+          <tr><td><strong>Typechecker</strong></td><td>AST</td><td>Type</td><td>Type rules violated</td></tr>
+          <tr><td><strong>Evaluator</strong></td><td>AST</td><td>Value</td><td>Runtime errors (division by zero, etc.)</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Example Language: Math-ew</div>
+        <pre>
+E → +NE | -NE | *NE | /NE | N
+N → 0|1|2|3|4|5|6|7|8|9
+
+(* Valid sentences: "+ 3 4"  "- 3 * 4 + 5 2" *)</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Lexer Implementation</div>
+        <p>Converts a string to a list of tokens. Doesn't check grammar — just identifies valid tokens.</p>
+        <pre>
+type token = Plus | Sub | Mult | Div | Num of int
+
+let rec lex str =
+  if str = "" then [] else
+  if String.sub str 0 1 = "+" then
+    Plus :: (lex (String.sub str 1 (String.length str - 1)))
+  else if String.sub str 0 1 = "-" then
+    Sub :: (lex (String.sub str 1 (String.length str - 1)))
+  else if String.sub str 0 1 = "*" then
+    Mult :: (lex (String.sub str 1 (String.length str - 1)))
+  else if String.sub str 0 1 = "/" then
+    Div :: (lex (String.sub str 1 (String.length str - 1)))
+  else if String.sub str 0 1 = "0" then
+    Num(0) :: (lex (String.sub str 1 (String.length str - 1)))
+  (* ... digits 1-9 ... *)
+  else lex (String.sub str 1 (String.length str - 1))
+
+(* lex "+ 1 2" = [Plus; Num(1); Num(2)] *)
+(* lex "1 2 +" = [Num(1); Num(2); Plus]  — STILL VALID for lexer! *)
+(* lex "$ 1 2" = [Num(1); Num(2)]        — $ is skipped *)</pre>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">The lexer does <strong>not</strong> check grammar. "1 2 +" lexes fine even though it's not a valid Math-ew sentence.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Parser Implementation</div>
+        <p>Takes a token list, checks grammar, and builds an AST (Abstract Syntax Tree).</p>
+        <pre>
+type ast =
+  | Int of int
+  | Add of ast * ast
+  | Minus of ast * ast
+  | Times of ast * ast
+  | Divide of ast * ast
+
+let rec parse tok_list = match tok_list with
+  | []          -> failwith "Empty"
+  | [Num(x)]    -> Int(x)
+  | Plus  :: Num(x) :: t -> Add(Int(x),   parse t)
+  | Sub   :: Num(x) :: t -> Minus(Int(x), parse t)
+  | Mult  :: Num(x) :: t -> Times(Int(x), parse t)
+  | Div   :: Num(x) :: t -> Divide(Int(x), parse t)
+  | _           -> failwith "Parse error"
+
+(* parse [Plus; Num(2); Num(3)] = Add(Int(2), Int(3)) *)
+(* parse [Num(1); Num(2); Plus] → FAILS — grammar violation *)</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Evaluator Implementation</div>
+        <p>Traverses the AST and computes a final value via post-order traversal.</p>
+        <pre>
+let rec eval ast = match ast with
+  | Int(x)        -> x
+  | Add(x, y)     -> let left = eval x in
+                     let right = eval y in
+                     left + right
+  | Minus(x, y)   -> (eval x) - (eval y)
+  | Times(x, y)   -> (eval x) * (eval y)
+  | Divide(x, y)  -> (eval x) / (eval y)
+
+(* Full pipeline: *)
+eval (parse (lex "+ 2 3")) = 5</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Typecheck Implementation</div>
+        <p>Checks that the AST is type-safe before evaluation (or can be run in parallel).</p>
+        <pre>
+type typ = TInt | TBool
+
+let rec typecheck ast ctx = match ast with
+  | Int(_)        -> TInt
+  | Bool(_)       -> TBool
+  | Add(e1, e2)   ->
+      if typecheck e1 ctx = TInt && typecheck e2 ctx = TInt
+      then TInt
+      else failwith "Type error: + expects int"
+  | If(cond, t, e) ->
+      let tc = typecheck cond ctx in
+      let tt = typecheck t ctx in
+      let te = typecheck e ctx in
+      if tc = TBool && tt = te then tt
+      else failwith "Type error in if"
+  | Var(x)        -> List.assoc x ctx</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Practice: Which stage fails? <span class="badge">Spring '25 Q8</span></div>
+        <p>For each expression, determine: Lexer (L), Parser (P), Evaluator (E), or Valid (V).</p>
+        <pre>
+Grammar:
+E → let S = E in E | let ref S = E ; E | R
+R → R <> R | S := R | M
+M → M * M | M - M | S
+S → 1|2|3|true|false|x|(E)
+(lowercase = single char variable)</pre>
+        <div class="grid-2">
+          <div>
+            <p><code>let x = x <> false in x</code></p>
+            <details><summary>Answer</summary><div class="hint-body"><strong>Valid</strong> — all tokens valid, grammar matches, x <> false is bool comparison, evaluates fine.</div></details>
+
+            <p><code>true := 3</code></p>
+            <details><summary>Answer</summary><div class="hint-body"><strong>Parser (P)</strong> — <code>true</code> is terminal S, but S := R requires S to be an assignable ref, not just any S. (Fails grammar.)</div></details>
+          </div>
+          <div>
+            <p><code>let 2 - 1 = 1 in 3</code></p>
+            <details><summary>Answer</summary><div class="hint-body"><strong>Parser (P)</strong> — grammar requires <code>let S = ...</code> where S is a single symbol, not an expression like "2 - 1".</div></details>
+
+            <p><code>if true then false else 3</code></p>
+            <details><summary>Answer</summary><div class="hint-body"><strong>Parser (P)</strong> — there is no <code>if</code> production in this grammar! The token "if" is not in the grammar, so lexing might accept it but parsing fails.</div></details>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LAMBDA CALCULUS ===== -->
+    <div id="lambda" class="section">
+      <div class="section-header">
+        <div class="section-tag">Topic 07</div>
+        <h2 class="section-title">Lambda Calculus</h2>
+        <p class="section-desc">Complete guide from zero — syntax, β-reduction, free/bound variables, Church encodings, and the Y-combinator.</p>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">🎓</span>
+        <div class="callout-body">This section assumes <strong>no prior knowledge</strong>. We build up everything from scratch. Lambda calculus is the theoretical foundation of all functional languages including OCaml.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">What is Lambda Calculus? <span class="badge">From Scratch</span></div>
+        <p>Lambda calculus (λ-calculus) is a tiny formal system invented by Alonzo Church in the 1930s. It has only 3 constructs, yet it is <strong>Turing complete</strong> — it can compute anything a computer can compute.</p>
+        <p>Think of it as the world's smallest programming language. Modern languages like OCaml, Haskell, and Lisp are essentially elaborate extensions of lambda calculus.</p>
+
+        <h3>The Grammar (the entire language)</h3>
+        <div class="rule-box">
+          <div class="rule-conclusion">
+            E → x &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a variable)<br>
+            &nbsp;&nbsp;&nbsp;| λx.E &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a function definition)<br>
+            &nbsp;&nbsp;&nbsp;| E E &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(function application)<br>
+            &nbsp;&nbsp;&nbsp;| (E) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(grouping)
+          </div>
+        </div>
+
+        <h3>That's it. Three constructs:</h3>
+        <ul>
+          <li><strong>Variable:</strong> <code>x</code>, <code>y</code>, <code>z</code> — just names</li>
+          <li><strong>Abstraction:</strong> <code>λx.E</code> — a function with parameter x and body E</li>
+          <li><strong>Application:</strong> <code>E₁ E₂</code> — apply function E₁ to argument E₂</li>
+        </ul>
+
+        <h3>Valid lambda expressions:</h3>
+        <pre>
+x               (just a variable)
+λx.x            (identity function: takes x, returns x)
+λx.y            (constant function: takes x, returns y)
+λx.λy.x         (takes x then y, returns x — "first")
+(λx.x) y        (apply identity to y — evaluates to y)
+λx.λy.x y       (takes x, takes y, applies x to y)</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Analogy to OCaml</div>
+        <table>
+          <tr><th>Lambda Calculus</th><th>OCaml</th><th>Meaning</th></tr>
+          <tr><td><code>λx.E</code></td><td><code>fun x -> E</code></td><td>Anonymous function</td></tr>
+          <tr><td><code>E₁ E₂</code></td><td><code>E₁ E₂</code></td><td>Function application</td></tr>
+          <tr><td><code>x</code></td><td><code>x</code></td><td>Variable</td></tr>
+          <tr><td><code>λx.λy.x</code></td><td><code>fun x -> fun y -> x</code></td><td>Curried function</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">β-Reduction (How to Evaluate) <span class="badge">Core Skill</span></div>
+        <p><strong>Beta reduction</strong> is the one evaluation rule of lambda calculus. It's function application: substitute the argument into the function body.</p>
+
+        <div class="rule-box">
+          <div class="rule-name">(β-reduction)</div>
+          <div class="rule-conclusion">(λx.E) V &nbsp;⇒&nbsp; E[x := V]</div>
+        </div>
+        <p>"Replace every occurrence of x in E with V." The expression being reduced is called a <strong>redex</strong> (reducible expression).</p>
+
+        <h3>Simple Examples</h3>
+        <pre>
+(λx.x) 5           -- identity applied to 5
+⇒ 5                -- replace x with 5 in body "x"
+
+(λx.x+1) 3        -- increment function
+⇒ 3+1 = 4
+
+(λx.λy.x) a b     -- "first" function applied to a and b
+⇒ (λy.a) b        -- replace x with a in body "λy.x"
+⇒ a               -- replace y with b in body "a" — y not in a, so stays a</pre>
+
+        <h3>Multi-step reduction</h3>
+        <pre>
+(λx.(λy.y x)) a b
+⇒ (λy.y a) b      -- apply outer function: x → a
+⇒ b a             -- apply inner function: y → b</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Evaluation Order: Eager vs Lazy</div>
+        <div class="grid-2">
+          <div>
+            <h3>Eager (Call-by-Value)</h3>
+            <p>Reduce arguments <strong>before</strong> applying the function. Evaluate from inside out.</p>
+            <pre>
+(λx.x) ((λy.y) 3)
+-- First reduce argument:
+⇒ (λx.x) 3
+⇒ 3</pre>
+          </div>
+          <div>
+            <h3>Lazy (Call-by-Name)</h3>
+            <p>Apply the function <strong>first</strong>, substituting the unevaluated argument. Evaluate only when needed.</p>
+            <pre>
+(λx.x) ((λy.y) 3)
+-- Apply outer first:
+⇒ (λy.y) 3
+⇒ 3</pre>
+          </div>
+        </div>
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">Both strategies produce the same result <em>when they terminate</em> (Church-Rosser theorem). But lazy evaluation can terminate when eager evaluation doesn't (e.g., if the argument causes an infinite loop but is never used). OCaml uses eager evaluation.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Free vs Bound Variables <span class="badge">Exam Favorite</span></div>
+        <p>A variable is <strong>bound</strong> if it corresponds to a parameter of an enclosing lambda. It is <strong>free</strong> otherwise.</p>
+
+        <pre>
+λx.x a       -- x is BOUND (it's λx's parameter in scope)
+             -- a is FREE (no λa in scope)
+
+λx.λy.x a y  -- x bound to outer λx
+             -- y bound to inner λy
+             -- a is FREE
+
+(λx.λx.x) a  -- inner x is bound to inner λx (SHADOWING)
+             -- outer λx's parameter is shadowed</pre>
+
+        <h3>Formal definition</h3>
+        <pre>
+FV(x)      = {x}                  -- variable: itself is free
+FV(λx.E)   = FV(E) - {x}         -- abstraction: x is removed from free vars
+FV(E₁ E₂)  = FV(E₁) ∪ FV(E₂)    -- application: union of free vars
+
+BV(x)      = {}
+BV(λx.E)   = {x} ∪ BV(E)
+BV(E₁ E₂)  = BV(E₁) ∪ BV(E₂)</pre>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body"><strong>Variable capture:</strong> When substituting, make sure you don't accidentally bind a free variable! If the substituted value has a free variable that matches a bound variable in the function body, you must <em>rename</em> first (alpha conversion).</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">α-Conversion (Alpha Equivalence) <span class="badge">Exam Skill</span></div>
+        <p>Two lambda expressions are <strong>alpha equivalent</strong> if one can be obtained from the other by <em>consistently renaming bound variables</em>. This doesn't change the meaning.</p>
+
+        <pre>
+λx.x    ≡α   λy.y    ≡α   λz.z    (all identity functions)
+
+λx.λy.x  ≡α  λa.λb.a  ≡α  λp.λq.p  (all "first" functions)</pre>
+
+        <h3>When to use alpha conversion</h3>
+        <pre>
+-- Problematic reduction (variable capture!):
+(λy.(λx.y)) x
+⇒ (λx.x)           -- WRONG! Free x became bound
+
+-- Correct: alpha-convert first to avoid clash
+(λy.(λx.y)) x
+→ (λy.(λa.y)) x    -- rename bound x to a
+⇒ (λa.x)           -- now substitute y:=x correctly</pre>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">Alpha conversion rule: you can rename a <strong>bound variable</strong> and its corresponding parameter consistently throughout. You <strong>cannot</strong> rename free variables.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Church Encodings <span class="badge">Mind-bending but important</span></div>
+        <p>Lambda calculus has no built-in booleans, numbers, or conditionals. Church encoded these as pure lambda expressions.</p>
+
+        <h3>Booleans</h3>
+        <pre>
+true  ≡  λx.λy.x    (takes two args, returns the FIRST)
+false ≡  λx.λy.y    (takes two args, returns the SECOND)</pre>
+
+        <h3>If-then-else</h3>
+        <p>Since <code>true</code> returns its first argument and <code>false</code> returns its second, we write <code>if b then t else e</code> as simply <code>b t e</code>:</p>
+        <pre>
+if true then A else B
+= (λx.λy.x) A B
+⇒ (λy.A) B
+⇒ A                  ✓ returns the "then" branch
+
+if false then A else B
+= (λx.λy.y) A B
+⇒ (λy.y) B
+⇒ B                  ✓ returns the "else" branch</pre>
+
+        <h3>Boolean operators</h3>
+        <pre>
+not   ≡ λb. b false true
+and   ≡ λb.λc. b c false     (if b then c else false)
+or    ≡ λb.λc. b true c      (if b then true else c)</pre>
+
+        <h3>Church Numerals (numbers as lambdas)</h3>
+        <pre>
+0 ≡ λf.λx.x           (apply f zero times)
+1 ≡ λf.λx.f x         (apply f once)
+2 ≡ λf.λx.f (f x)     (apply f twice)
+3 ≡ λf.λx.f (f (f x)) (apply f three times)
+
+-- Successor (n+1):
+succ ≡ λn.λf.λx.f (n f x)
+
+-- Addition:
+add ≡ λm.λn.λf.λx.m f (n f x)</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">The Y-Combinator (Recursion) <span class="badge">Advanced</span></div>
+        <p>Lambda calculus has no named functions, so how do we do recursion? Through the <strong>Y-combinator</strong> (fixpoint combinator).</p>
+        <pre>
+Y ≡ λf.(λx.f(x x))(λx.f(x x))</pre>
+        <p>Key property: <code>Y F = F (Y F)</code>. This means Y "feeds F to itself" indefinitely:</p>
+        <pre>
+Y F
+= (λf.(λx.f(x x))(λx.f(x x))) F
+⇒ (λx.F(x x))(λx.F(x x))
+⇒ F((λx.F(x x))(λx.F(x x)))
+⇒ F(Y F)               -- Y F = F(Y F)!
+⇒ F(F(Y F))
+⇒ F(F(F(Y F)))
+...</pre>
+
+        <h3>Recursive factorial using Y</h3>
+        <pre>
+-- Define factorial as a non-recursive function G
+-- where f is "the recursive call"
+G ≡ λf.λn. if n=0 then 1 else n*(f(n-1))
+
+-- Y G gives us the recursive factorial
+(Y G) 3
+= G (Y G) 3
+= if 3=0 then 1 else 3*((Y G) 2)
+= 3 * ((Y G) 2)
+= 3 * (G (Y G) 2)
+= 3 * (if 2=0 then 1 else 2*((Y G) 1))
+= 3 * 2 * 1 * 1 = 6</pre>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Practice: Reduce this expression <span class="badge">Spring '25 Q10</span></div>
+        <pre>(λc. a b (c a)) ((λa. c) (λc. (λa. b)))</pre>
+        <p>Use <strong>lazy evaluation</strong>. Order the steps:</p>
+        <pre>
+A. (λc. a b (c a)) ((λc. (λa. b)))
+B. a b ((λa. c) (λc. (λa. b)) a)
+H. a b (λa. (λc. (λa. b)) a)
+J. a b (λc. (λa. b))</pre>
+        <details>
+          <summary>Reveal Answer</summary>
+          <div class="hint-body">
+            <p><strong>Lazy evaluation:</strong> apply the outermost function first without reducing the argument.</p>
+            <p>Step 1: <strong>B</strong> — apply (λc.a b(ca)) to the unevaluated argument; c gets replaced by ((λa.c)(λc.(λa.b)))</p>
+            <p>Step 2: <strong>H</strong> — now reduce the application inside: (λa.c) applied to (λc.(λa.b)) gives λa.(λc.(λa.b)) a</p>
+            <p>Step 3: <strong>J</strong> — apply the inner lambda: (λa.(λc.(λa.b))) applied gives (λc.(λa.b))</p>
+            <p>Final: <code>a b (λc.(λa.b))</code></p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ===== FLASHCARDS ===== -->
+    <div id="flashcards" class="section">
+      <div class="section-header">
+        <div class="section-tag">Practice</div>
+        <h2 class="section-title">Flashcards</h2>
+        <p class="section-desc">Click a card to flip it. Use the arrows to navigate.</p>
+      </div>
+
+      <div id="flashcard-container">
+        <div class="flashcard-wrap" onclick="flipCard()">
+          <div class="flashcard" id="theCard">
+            <div class="card-face card-front">
+              <div>
+                <p>Click to reveal answer</p>
+                <p class="q" id="fc-question">Loading...</p>
+              </div>
+            </div>
+            <div class="card-face card-back">
+              <p class="a" id="fc-answer">Loading...</p>
+            </div>
+          </div>
+        </div>
+        <div class="flashcard-nav">
+          <button class="btn" onclick="prevCard()">← Prev</button>
+          <span class="flashcard-counter" id="fc-counter">1 / 20</span>
+          <button class="btn" onclick="nextCard()">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== QUIZ ===== -->
+    <div id="quiz" class="section">
+      <div class="section-header">
+        <div class="section-tag">Practice</div>
+        <h2 class="section-title">Practice Quiz</h2>
+        <p class="section-desc">Questions drawn from Spring '24, Spring '25, and Fall '23 finals. Click an option to check.</p>
+      </div>
+
+      <div id="quiz-score-bar" style="margin-bottom:20px;display:none">
+        <p style="font-size:12px;color:var(--muted);margin-bottom:4px">Progress: <span id="score-text">0 / 10</span></p>
+        <div class="progress-wrap"><div class="progress-bar" id="score-bar" style="width:0%"></div></div>
+      </div>
+
+      <div id="quiz-container"></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Navigation
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes(`'${id}'`)) {
+      n.classList.add('active');
+    }
+  });
+  window.scrollTo(0, 0);
+}
+
+// Flashcard data
+const cards = [
+  { q: "What is the context G in OCaml's type system?", a: "G is a partial function mapping variable names to their types. G(x) = t means 'variable x has type t'. G, x:t means 'extend G with a new binding x→t'." },
+  { q: "What does G ⊢ e : t mean?", a: "It reads 'In context G, expression e has type t'. The symbol ⊢ is called the turnstile and separates the context from the judgment." },
+  { q: "Type rule for 'if e1 then e2 else e3'?", a: "Premises: G ⊢ e1 : bool, G ⊢ e2 : t, G ⊢ e3 : t. Conclusion: G ⊢ if e1 then e2 else e3 : t. Both branches must have the SAME type." },
+  { q: "Type rule for function application (e1 e2)?", a: "G ⊢ e1 : (t1 → t2) and G ⊢ e2 : t1, therefore G ⊢ e1 e2 : t2. The argument type must match the function's input type." },
+  { q: "What is a closure?", a: "A closure is a tuple (function_body, environment). It 'closes over' the variables in scope at creation time. The environment is frozen and never updated after creation." },
+  { q: "What is static scope (lexical scoping)?", a: "The environment captured by a closure is fixed at the TIME THE CLOSURE IS CREATED, not at the time it is called. Rebinding a variable after creating a closure does not affect the closure." },
+  { q: "What does 'let add3 = (+) 3' produce?", a: "A closure: (fun y -> 3 + y) with environment [x=3]. This is partial application — applying (+) to just its first argument, returning a function waiting for the second." },
+  { q: "Why is R+ not strictly necessary in regex?", a: "Because R+ (one or more R) ≡ RR* (one R, then zero or more R). The Kleene star * and concatenation are sufficient." },
+  { q: "Why is R? not strictly necessary in regex?", a: "Because R? (zero or one R) ≡ R|ε (either R or the empty string). Union with ε covers it." },
+  { q: "What is the implementation of map?", a: "let rec map f lst = match lst with [] -> [] | h::t -> (f h) :: (map f t)\nApplies f to every element, returns new list of same length." },
+  { q: "What is the implementation of fold_right?", a: "let rec fold_right f lst base = match lst with [] -> base | h::t -> f h (fold_right f t base)\nProcesses right-to-left; result of recursion is second arg to f." },
+  { q: "What is the implementation of fold_left?", a: "let rec fold_left f acc lst = match lst with [] -> acc | h::t -> fold_left f (f acc h) t\nTail recursive! Processes left-to-right with accumulator." },
+  { q: "What is the key difference between fold_left and fold_right?", a: "fold_left is LEFT-to-RIGHT (tail recursive, accumulator). fold_right is RIGHT-to-LEFT (needs stack). For non-commutative ops like (-), they give DIFFERENT results." },
+  { q: "What is a terminal in a CFG?", a: "A terminal is an actual symbol of the language that appears in the final string. Examples: 'a', '+', '0'. They cannot be expanded further." },
+  { q: "What is a non-terminal in a CFG?", a: "A non-terminal is a placeholder that expands into other symbols according to production rules. By convention uppercase: S, E, NP. They never appear in the final string." },
+  { q: "What is an ambiguous grammar?", a: "A grammar is ambiguous if a single string has MORE THAN ONE distinct parse tree (or more than one leftmost derivation). Fix by restructuring rules to encode precedence." },
+  { q: "Can every CFG be represented by an NFA?", a: "NO. NFAs recognize only regular languages. CFGs recognize context-free languages, which is a strictly larger class. E.g., {aⁿbⁿ} is context-free but not regular." },
+  { q: "What are the three steps in the interpreter pipeline?", a: "1. Lexer: string → token list (checks valid characters)\n2. Parser: token list → AST (checks grammar)\n3. Evaluator: AST → value (computes result)\nOptionally: Typechecker between parser and evaluator." },
+  { q: "What is β-reduction in lambda calculus?", a: "(λx.E) V ⇒ E[x := V]. Substitute V for every free occurrence of x in E. This is the only evaluation rule of lambda calculus." },
+  { q: "What are Church encodings for true and false?", a: "true  ≡ λx.λy.x  (returns first argument)\nfalse ≡ λx.λy.y  (returns second argument)\nif b then t else e  ≡  b t e  (apply b to the two branches)" },
+  { q: "What is the Y-combinator?", a: "Y ≡ λf.(λx.f(x x))(λx.f(x x))\nKey property: Y F = F(Y F)\nAllows recursion in lambda calculus by passing the recursive function as an argument." },
+  { q: "What is alpha equivalence?", a: "Two expressions are α-equivalent if one can be obtained from the other by consistently renaming BOUND variables. λx.x ≡α λy.y. Free variables CANNOT be renamed." },
+];
+
+let currentCard = 0;
+let cardFlipped = false;
+
+function renderCard() {
+  const c = cards[currentCard];
+  document.getElementById('fc-question').textContent = c.q;
+  document.getElementById('fc-answer').textContent = c.a;
+  document.getElementById('fc-counter').textContent = `${currentCard + 1} / ${cards.length}`;
+  // Reset flip
+  document.getElementById('theCard').classList.remove('flipped');
+  cardFlipped = false;
+}
+
+function flipCard() {
+  const card = document.getElementById('theCard');
+  cardFlipped = !cardFlipped;
+  if (cardFlipped) card.classList.add('flipped');
+  else card.classList.remove('flipped');
+}
+
+function nextCard() {
+  currentCard = (currentCard + 1) % cards.length;
+  renderCard();
+}
+
+function prevCard() {
+  currentCard = (currentCard - 1 + cards.length) % cards.length;
+  renderCard();
+}
+
+renderCard();
+
+// Quiz data
+const quizData = [
+  {
+    q: "[Spring '25] Every CFG can be represented by an NFA.",
+    options: ["True", "False"],
+    answer: 1,
+    explain: "FALSE. NFAs recognize only regular languages. CFGs recognize context-free languages, which is strictly larger. e.g., {aⁿbⁿ} is context-free but cannot be recognized by any NFA."
+  },
+  {
+    q: "[Spring '25] OCaml is dynamically typed because it uses type inference.",
+    options: ["True", "False"],
+    answer: 1,
+    explain: "FALSE. OCaml is STATICALLY typed — type checking happens at compile time. Type inference is just a feature that figures out types automatically; it doesn't make a language dynamic."
+  },
+  {
+    q: "[Spring '25] In OCaml, anywhere we use map, we could use fold instead.",
+    options: ["True", "False"],
+    answer: 0,
+    explain: "TRUE. fold_right can implement map: map f lst = fold_right (fun h acc -> (f h)::acc) lst []"
+  },
+  {
+    q: "[Fall '23] What type does `fun x -> x + 1` have in OCaml?",
+    options: ["int", "int → int", "'a → 'a", "bool → int"],
+    answer: 1,
+    explain: "The function takes an int (because + requires int) and returns an int (x + 1 is int). Type: int → int."
+  },
+  {
+    q: "Which of the following correctly implements fold_left?",
+    options: [
+      "let rec f fn lst b = match lst with [] -> b | h::t -> fn h (f fn t b)",
+      "let rec f fn acc lst = match lst with [] -> acc | h::t -> f fn (fn acc h) t",
+      "let rec f fn lst b = match lst with [] -> [] | h::t -> (fn h)::t",
+      "let rec f fn acc lst = match lst with [] -> acc | h::t -> fn acc (f fn (fn acc h) t)"
+    ],
+    answer: 1,
+    explain: "fold_left uses an accumulator (acc) updated with each head element. The recursive call passes the NEW accumulator (fn acc h) forward, making it tail-recursive."
+  },
+  {
+    q: "Given λx.λy.x — which variables are free?",
+    options: ["x and y are both free", "Neither x nor y are free", "x is free, y is bound", "y is free, x is bound"],
+    answer: 1,
+    explain: "In λx.λy.x, both x and y are BOUND — x is bound by the outer λx, and y is bound by the inner λy. There are no free variables in this expression."
+  },
+  {
+    q: "What does β-reduction of (λx.x x)(λx.x x) produce?",
+    options: [
+      "The identity function λx.x",
+      "The same expression (λx.x x)(λx.x x) — infinite loop",
+      "A normal form x x",
+      "λx.x applied to itself"
+    ],
+    answer: 1,
+    explain: "This is the Ω-combinator. Substituting (λx.x x) for x in the body (x x) gives back (λx.x x)(λx.x x). It loops forever and has no normal form."
+  },
+  {
+    q: "[Spring '25] At which pipeline stage does `let 2 - 1 = 1 in 3` fail?",
+    options: ["Lexer", "Parser", "Evaluator", "Valid — it succeeds"],
+    answer: 1,
+    explain: "Parser. The grammar requires 'let S = ...' where S is a single symbol. '2 - 1' is an expression, not a valid variable name (terminal S)."
+  },
+  {
+    q: "What is the type of `let rec map f lst = match lst with [] -> [] | h::t -> (f h) :: (map f t)`?",
+    options: [
+      "('a → 'b) → 'a list → 'b list",
+      "('a → 'a) → 'a list → 'a list",
+      "('a → 'b) → 'b list → 'b list",
+      "int → int list → int list"
+    ],
+    answer: 0,
+    explain: "map takes a function from 'a to 'b, and a list of 'a, and produces a list of 'b. The input and output lists can have different element types."
+  },
+  {
+    q: "Church encoding: true ≡ ?",
+    options: ["λx.λy.y", "λx.λy.x", "λx.x", "λx.λy.x y"],
+    answer: 1,
+    explain: "true ≡ λx.λy.x — it takes two arguments and returns the FIRST. false ≡ λx.λy.y returns the second. This makes 'if b then t else e' simply 'b t e'."
+  }
+];
+
+let quizAnswers = {};
+let quizRevealed = {};
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  quizData.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'quiz-card';
+    div.innerHTML = `
+      <div class="quiz-question">${qi + 1}. ${q.q}</div>
+      ${q.options.map((o, oi) => `
+        <div class="quiz-option" id="qo-${qi}-${oi}" onclick="selectOption(${qi}, ${oi})">
+          <span class="quiz-letter">${String.fromCharCode(65+oi)}</span>
+          <span>${o}</span>
+        </div>
+      `).join('')}
+      <div class="quiz-explain" id="qe-${qi}">✅ ${q.explain}</div>
+    `;
+    container.appendChild(div);
+  });
+  document.getElementById('quiz-score-bar').style.display = 'block';
+}
+
+function selectOption(qi, oi) {
+  if (quizRevealed[qi]) return;
+  quizRevealed[qi] = true;
+  quizAnswers[qi] = oi;
+  const correct = quizData[qi].answer;
+  quizData[qi].options.forEach((_, i) => {
+    const el = document.getElementById(`qo-${qi}-${i}`);
+    if (i === correct) el.classList.add('correct');
+    if (i === oi && oi !== correct) el.classList.add('wrong');
+  });
+  document.getElementById(`qe-${qi}`).classList.add('show');
+  updateScore();
+}
+
+function updateScore() {
+  const total = Object.keys(quizRevealed).length;
+  const correct = Object.entries(quizAnswers).filter(([qi, oi]) => oi === quizData[qi].answer).length;
+  document.getElementById('score-text').textContent = `${correct} correct out of ${total} attempted (${quizData.length} total)`;
+  document.getElementById('score-bar').style.width = `${(correct / quizData.length) * 100}%`;
+}
+
+buildQuiz();
+</script>
+</body>
+</html>
